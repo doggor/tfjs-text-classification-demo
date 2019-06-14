@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Playground</title>
+        <link rel="stylesheet" href="css/index.css" />
+        <script src="js/index.js" defer></script>
+    </head>
+    <body>
+        <fieldset>
+            <legend>Models</legend>
+            <ul class="no-points">
+                <li>
+                    <label for="model-import-json-input">JSON file: </label>
+                    <input type="file" id="model-import-json-input" accept="text/json" />
+                </li>
+                <li>
+                    <label for="model-import-weight-input">Weight file: </label>
+                    <input type="file" id="model-import-weight-input" />
+                </li>
+                <li>
+                    <button id="import-model-btn">Import Model</button>
+                </li>
+            </ul>
+            <hr />
+            <button id="new-model-btn">New Model</button>
+            <ul id="model-list" class="no-points"></ul>
+            <hr />
+            <ul class="no-points">
+                <li>
+                    <label><input type="checkbox" id="use-cpu" /> Use CPU</label>
+                </li>
+                <li>
+                    <label><input type="number" id="epochs-input" value="100" /> Epochs</label>
+                </li>
+                <li>
+                    <button id="start-traning-btn">Start Training</button>
+                </li>
+            </ul>
+            <hr />
+            <button id="save-model-btn">Save Model</button>
+            <button id="export-model-btn">Export Model</button>
+            <hr />
+            <button id="eval-model-btn">Evaluate Model</button>
+            <button id="start-predict-btn">Start Predict</button>
+            <div id="predicting-canvas-container"></div>
+        </fieldset>
+        <fieldset id="traning-canvas-container">
+            <legend>Traning Samples</legend>
+        </fieldset>
+        <fieldset id="validating-canvas-container">
+            <legend>Validation Samples</legend>
+        </fieldset>
+    </body>
+</html>

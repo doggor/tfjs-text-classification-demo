@@ -1,0 +1,23 @@
+{
+    "name": "tfjs-text-classification-demo",
+    "version": "1.0.0",
+    "description": "A text classification demo using tensorflow.js",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx parcel src/index.html",
+        "build": "npx parcel build src/index.html"
+    },
+    "author": "Andy Ching",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-preset-env": "^1.7.0",
+        "parcel": "^1.12.3"
+    },
+    "dependencies": {
+        "@tensorflow/tfjs": "^1.1.2",
+        "@tensorflow/tfjs-vis": "^1.1.0",
+        "babel-polyfill": "^6.26.0",
+        "jquery": "^3.4.1"
+    }
+}
