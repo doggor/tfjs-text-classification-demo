@@ -31,7 +31,7 @@ export default function generateCharImage(char, domId) {
     //char
     ctx.fillStyle = "black";
     const fontSIze = `${Math.floor(Math.random() * 10) + 30}px`;
-    const fontFamily = ["serif", "Courier"][Math.floor(Math.random() * 2)];
+    const fontFamily = ["Courier", "Palatino"][Math.floor(Math.random() * 2)];
     const fontBold = Math.random() < 0.5 ? "bold" : "";
     ctx.font = `${fontBold} ${fontSIze} ${fontFamily}`;
     ctx.textAlign = "center";
