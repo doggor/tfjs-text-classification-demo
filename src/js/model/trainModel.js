@@ -23,7 +23,7 @@ export default async function trainModel(model, epochs, backend = "webgl") {
 
     const graphUpdateCallbacks = tfvis.show.fitCallbacks(
         {
-            name: "show.fitCallbacks",
+            name: "Acc / Loss",
             tab: "Training",
             styles: {
                 height: "800px",
