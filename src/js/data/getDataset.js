@@ -2,8 +2,16 @@ import * as tf from "@tensorflow/tfjs";
 import { CHARS, BATCH_SIZE } from "../constants";
 import generateCharImage from "./generateCharImage";
 
+/**
+ * @type {Map<String, ImageData>}
+ */
 const imageDataCache = new Map();
 
+/**
+ * @param {String} char
+ * @param {String} type
+ * @param {Boolean} shouldCache
+ */
 function getImageData(char, type, shouldCache) {
     const id = `${type}-${char}`;
     if (shouldCache && imageDataCache.has(id)) {
@@ -17,7 +25,6 @@ function getImageData(char, type, shouldCache) {
 }
 
 /**
- *
  * @param {String} type "train" or "valid"
  */
 export default function getDataset(type, shouldCache = false) {

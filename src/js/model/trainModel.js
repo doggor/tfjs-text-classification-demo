@@ -2,6 +2,8 @@ import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import getDataset from "../data/getDataset";
 import { LayersModel } from "@tensorflow/tfjs";
+import compileModel from "./compileModel";
+
 
 /**
  *
@@ -12,11 +14,7 @@ import { LayersModel } from "@tensorflow/tfjs";
 export default async function trainModel(model, epochs, backend = "webgl") {
     tf.setBackend(backend);
 
-    model.compile({
-        optimizer: "adam",
-        loss: "categoricalCrossentropy",
-        metrics: ["accuracy"],
-    });
+    compileModel(model);
 
     const trainingDataset = getDataset("train");
     const validatingDataset = getDataset("valid", true);
