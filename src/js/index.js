@@ -4,29 +4,27 @@ import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import createModel from "./model/createModel";
 import listModels from "./view/listModels";
-import prepareCanvases from "./view/prepareCanvases";
 import trainModel from "./model/trainModel";
 import showModelSummary from "./model/showModelSummary";
-import { getModel, setModel } from "./model/currentModel";
+import { getModel } from "./model/currentModel";
 import getDataset from "./data/getDataset";
 import { CHARS } from "./constants";
 
-$(document).ready(function() {
+$(document).ready(async function() {
+
+    //wait until tfjs is ready
+    await tf.ready();
+
     //restore models from storage
     listModels();
 
-    //create canvas for training and validation
-    prepareCanvases();
-});
-
-//disable #use-cpu if webgl is not available
-tf.ready().then(function() {
+    //disable #use-cpu if webgl is not available
     if (tf.getBackend() !== "webgl") {
         $("#use-cpu").prop("checked", true);
         $("#use-cpu").prop("disabled", true);
     }
 });
-window.$ = $;
+
 //import model
 $("#import-model-btn").click(async function() {
     try {
@@ -99,7 +97,7 @@ $("#eval-model-btn").click(async function() {
         metrics: ["accuracy"],
     });
     //create 10 set of data
-    const dataset = new Array(100)
+    const dataset = new Array(10)
         .fill(null)
         .map(() => getDataset("valid"))
         .reduce((p, c) => p.concatenate(c));
@@ -131,18 +129,33 @@ $("#start-predict-btn").click(async function() {
         return;
     }
 
-    const dataset = getDataset("predict");
+    //function to convert ouput tensor to char
     const tensor2char = tensor => CHARS[tensor.argMax().dataSync()[0]];
-    await dataset.forEachAsync(data => {
+
+    //area to place the result
+    const $drawArea = $(tfvis.visor().surface({
+        name: 'Prediction',
+        tab: 'Prediction'
+    }).drawArea).empty();
+
+    getDataset("predict").forEachAsync(data => {
         const chars = data.ys.unstack().map(tensor2char);
         const predictions = model
             .predict(data.xs)
             .unstack()
             .map(tensor2char);
         for (let i = 0; i < chars.length; i++) {
-            $(`#result-predict-${chars[i]}`)
-                .text(predictions[i])
-                .css("color", chars[i] === predictions[i] ? "green" : "red");
+            //append canvas dom and predicted value
+            const $canvas = $(`<canvas width="50" height="50"></canvas>`)
+            $(`<span class="predict-case"></span>`)
+                .append($canvas)
+                .append(
+                    $(`<span>${predictions[i]}</span>`)
+                        .css("color", chars[i] === predictions[i] ? "green" : "red"))
+                .appendTo($drawArea);
+            //fill canvas
+            const imageTensor = data.xs.slice([i, 0], [1, data.xs.shape[1]]).reshape([50, 50, 1]);
+            tf.browser.toPixels(imageTensor, $canvas[0]);
         }
     });
 });
