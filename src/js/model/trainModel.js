@@ -19,7 +19,7 @@ export default async function trainModel(model, epochs, backend = "webgl") {
     });
 
     const trainingDataset = getDataset("train");
-    const validatingDataset = getDataset("valid");
+    const validatingDataset = getDataset("valid", true);
 
     const graphUpdateCallbacks = tfvis.show.fitCallbacks(
         {

@@ -2,19 +2,30 @@ import * as tf from "@tensorflow/tfjs";
 import { CHARS, BATCH_SIZE } from "../constants";
 import generateCharImage from "./generateCharImage";
 
+const imageDataCache = new Map();
+
+function getImageData(char, type, shouldCache) {
+    const id = `${type}-${char}`;
+    if (shouldCache && imageDataCache.has(id)) {
+        return imageDataCache.get(id);
+    }
+    else {
+        const imageData = generateCharImage(char, type);
+        imageDataCache.set(id, imageData);
+        return imageData;
+    }
+}
+
 /**
  *
  * @param {String} type "train" or "valid"
  */
-export default function getDataset(type) {
+export default function getDataset(type, shouldCache = false) {
     const xs = tf.data.generator(function*() {
         for (let char of CHARS) {
-            const imageData = generateCharImage(char, `canvas-${type}-${char}`);
+            const imageData = getImageData(char, type, shouldCache);
             const tensors = tf.browser.fromPixels(imageData, 1);
-            yield tf
-                .scalar(255)
-                .sub(tensors)
-                .div(tf.scalar(255)); //normalize
+            yield tensors.div(tf.scalar(255)); //normalize
         }
     });
 
