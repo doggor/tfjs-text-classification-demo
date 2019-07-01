@@ -1,6 +1,7 @@
 import "babel-polyfill";
 import $ from "jquery";
 import * as tf from "@tensorflow/tfjs";
+import * as tfvis from "@tensorflow/tfjs-vis";
 import createModel from "./model/createModel";
 import { getModel } from "./model/currentModel";
 import evaluteModel from "./model/evaluteModel";
@@ -11,7 +12,6 @@ import predictFromModel from "./model/predictFromModel";
 import saveModel from "./model/saveModel";
 import summarizeModel from "./model/summarizeModel";
 import trainModel from "./model/trainModel";
-
 
 //init
 $(document).ready(async function init() {
@@ -26,6 +26,12 @@ $(document).ready(async function init() {
         $("#use-cpu").prop("checked", true);
         $("#use-cpu").prop("disabled", true);
     }
+});
+
+
+//show visor
+$("#show-visor-btn").click(function() {
+    tfvis.visor().open();
 });
 
 
