@@ -2,50 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Playground</title>
-        <link rel="stylesheet" href="css/index.css" />
-        <script src="js/index.js" defer></script>
+        <title>tfjs Text Classification Demo</title>
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/index.tsx" defer></script>
     </head>
     <body>
-        <button id="show-visor-btn">Show Visor</button>
-        <fieldset>
-            <legend>Models</legend>
-            <ul class="no-points">
-                <li>
-                    <label for="model-import-json-input">JSON file: </label>
-                    <input type="file" id="model-import-json-input" accept="text/json" />
-                </li>
-                <li>
-                    <label for="model-import-weight-input">Weight file: </label>
-                    <input type="file" id="model-import-weight-input" />
-                </li>
-                <li>
-                    <button id="import-model-btn">Import Model</button>
-                </li>
-            </ul>
-            <hr />
-            <button id="new-model-btn">New Model</button>
-            <ul id="model-list" class="no-points"></ul>
-            <hr />
-            <ul class="no-points">
-                <li>
-                    <label><input type="checkbox" id="use-cpu" /> Use CPU</label>
-                </li>
-                <li>
-                    <label><input type="number" id="epochs-input" value="100" /> Epochs</label>
-                </li>
-                <li>
-                    <button id="start-traning-btn">Start Training</button>
-                </li>
-            </ul>
-            <hr />
-            <button id="save-model-btn">Save Model</button>
-            <button id="export-model-btn">Export Model</button>
-            <hr />
-            <button id="eval-model-btn">Evaluate Model</button>
-            <button id="start-predict-btn">Start Predict</button>
-        </fieldset>
+        <div id="app"></div>
     </body>
 </html>

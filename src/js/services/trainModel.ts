@@ -1,23 +1,15 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
-import getDataset from "../data/getDataset";
-import { LayersModel } from "@tensorflow/tfjs";
+import getDataset, { clearDataCache } from "../data/getDataset";
 import compileModel from "./compileModel";
 
-
-/**
- *
- * @param {LayersModel} model
- * @param {number} epochs
- * @param {'cpu'|'webgl'} backend
- */
-export default async function trainModel(model, epochs, backend = "webgl") {
+export default async function trainModel(model: tf.LayersModel, epochs: number, backend = "webgl") {
     tf.setBackend(backend);
 
     compileModel(model);
 
     const trainingDataset = getDataset("train");
-    const validatingDataset = getDataset("valid", true);
+    const validatingDataset = getDataset("valid", 1, true);
 
     const graphUpdateCallbacks = tfvis.show.fitCallbacks(
         {
@@ -36,4 +28,6 @@ export default async function trainModel(model, epochs, backend = "webgl") {
         validationData: validatingDataset,
         callbacks: [graphUpdateCallbacks],
     });
+
+    clearDataCache();
 }

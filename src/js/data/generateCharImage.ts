@@ -3,16 +3,15 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from "../constants";
 
 /**
  * canvas 2d contexts store
- * @type {Map<String, CanvasRenderingContext2D>}
  */
-const canvasCtxs = new Map();
+const canvasCtxs = new Map<string, CanvasRenderingContext2D>();
 
 /**
  *
  * @param {String} char charater
- * @param {String} id canvas ID
+ * @param {String} type the group of the char belongs to
  */
-export default function generateCharImage(char, type) {
+export default function generateCharImage(char: string, type: string) {
     //compose the ID of the canvas of the char and type
     const canvasId = `${type}-${char}`;
     //create corresponding canvas if not found

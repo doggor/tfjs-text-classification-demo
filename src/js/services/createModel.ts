@@ -1,13 +1,7 @@
 import * as tf from "@tensorflow/tfjs";
 import { CHARS, BATCH_SIZE, CANVAS_WIDTH, CANVAS_HEIGHT } from "../constants";
-import { LayersModel } from "@tensorflow/tfjs";
 
-
-/**
- * @param {String} modelName
- * @return {Promise<LayersModel>}
- */
-export default async function createModel(modelName) {
+export default async function createModel(modelName: string) {
     const model = tf.sequential({
         layers: [
             tf.layers.conv2d({ name: "conv1", kernelSize: [5, 5], strides: 1, filters: 24, useBias: false, activation: "relu", inputShape: [CANVAS_WIDTH, CANVAS_HEIGHT, 1], batchSize: BATCH_SIZE }),
