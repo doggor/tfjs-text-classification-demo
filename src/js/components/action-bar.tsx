@@ -1,6 +1,6 @@
 import * as tf from "@tensorflow/tfjs";
 import * as React from "react";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StylesProvider } from "@material-ui/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -36,14 +36,16 @@ export default function ActionBar() {
     const [GPUEnabled, enableGPU] = useState(false); //whether should use WebGL for traning
 
     //init GPU setting
-    tf.ready().then(() => {
-        const canUseGPU = tf.getBackend() === "webgl";
-        setGPUUsable(canUseGPU);
-        //turn on if GPU available
-        if (canUseGPU) {
-            enableGPU(true);
-        }
-    });
+    useEffect(() => {
+        tf.ready().then(() => {
+            const canUseGPU = tf.getBackend() === "webgl";
+            setGPUUsable(canUseGPU);
+            //turn on if GPU available
+            if (canUseGPU) {
+                enableGPU(true);
+            }
+        });
+    }, []);
 
     const onImportBtnClicked = useCallback(() => {
         (async () => {
@@ -140,9 +142,12 @@ export default function ActionBar() {
     }, [modelName]);
 
     const toggleGPU = useCallback(() => {
-        const newState = !GPUEnabled;
-        tf.setBackend(newState ? "webgl" : "cpu");
-        enableGPU(newState);
+        (async () => {
+            const newState = !GPUEnabled;
+            if (await tf.setBackend(newState ? "webgl" : "cpu")) {
+                enableGPU(newState);
+            }
+        })();
     }, [GPUEnabled, enableGPU]);
 
     return (
