@@ -15,7 +15,9 @@ const rootReducer = combineReducers({
 
 export type AppState = ReturnType<typeof rootReducer>;
 
-const store = createStore(rootReducer, window.hasOwnProperty("__REDUX_DEVTOOLS_EXTENSION__") && window["__REDUX_DEVTOOLS_EXTENSION__"]());
+const enhancer = window.hasOwnProperty("__REDUX_DEVTOOLS_EXTENSION__") ? window["__REDUX_DEVTOOLS_EXTENSION__"]() : undefined;
+
+const store = createStore(rootReducer, enhancer);
 
 export type Store = typeof store;
 
