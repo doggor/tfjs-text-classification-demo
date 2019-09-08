@@ -2,13 +2,13 @@ import * as tf from "@tensorflow/tfjs";
 import * as React from "react";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StylesProvider } from "@material-ui/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import useStyles from "../hooks/use-styles";
 import useModelNamingDialog from "../hooks/use-model-naming-dialog";
-import createModel from "../services/createModel";
+import useModelCreatingDialog from "../hooks/use-model-creating-dialog";
+import createModel, { ModelStruct } from "../services/createModel";
 import restoreModelList from "../services/restoreModelList";
 import { updateModelList } from "../store/model-list/actions";
 import { AppState } from "../store";
@@ -30,6 +30,7 @@ export default function ActionBar() {
 
     const modelImportingPrompt = useModelImportingDialog();
     const modelNamingPrompt = useModelNamingDialog();
+    const modelCreatingPrompt = useModelCreatingDialog();
     const trainingEpochsPrompt = useModelTrainingDialog();
 
     const [GPUUsable, setGPUUsable] = useState(false); //is WebGL usable
@@ -85,15 +86,20 @@ export default function ActionBar() {
     const onNewBtnClicked = useCallback(() => {
         (async () => {
             try {
-                const modelName = await modelNamingPrompt();
+                const [modelName, modelStruct] = await modelCreatingPrompt();
                 if (modelName) {
                     dispatch(setAppLoading(true));
-                    await createModel(modelName);
+                    const parsedStruct = modelStruct ? (JSON.parse(modelStruct) as ModelStruct) : undefined;
+                    await createModel(modelName, parsedStruct);
                     dispatch(updateModelList(await restoreModelList()));
                     dispatch(setAppLoading(false));
                 }
             } catch (err) {
                 console.error(err);
+                window.alert(err.message);
+            }
+            finally {
+                dispatch(setAppLoading(false));
             }
         })();
     }, [dispatch, modelNamingPrompt]);

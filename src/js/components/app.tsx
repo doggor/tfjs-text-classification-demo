@@ -8,6 +8,7 @@ import Actionbar from "./action-bar";
 import ModelList from "./model-list";
 import ModelImportingDialog from "./model-importing-dialog";
 import ModelNamingDialog from "./model-naming-dialog";
+import ModelCreatingDialog from "./model-creating-dialog";
 import ModelTrainingDialog from "./model-training-dialog";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -23,6 +24,7 @@ export default function App() {
                 <ModelList />
                 <ModelImportingDialog />
                 <ModelNamingDialog />
+                <ModelCreatingDialog />
                 <ModelTrainingDialog />
                 {isLoading ? (
                     <>
