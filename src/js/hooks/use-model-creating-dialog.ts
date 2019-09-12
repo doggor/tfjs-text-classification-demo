@@ -16,7 +16,7 @@ export default function useModelCreatingDialog() {
                 if (!isOpened) {
                     unsubscribe();
 
-                    resolve(lastAction === "confirm" ? [text, struct] : null);
+                    resolve(lastAction === "confirm" ? [text, struct] : [null, null]);
 
                     //reset
                     dispatch(setModelCreatingDialogText(""));
